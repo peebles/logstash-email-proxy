@@ -1,0 +1,69 @@
+var SMTPConnection = require('smtp-connection');
+
+module.exports = function( app, options ) {
+    app.log.debug( 'emailer: options:', JSON.stringify( options, null, 2 ) );
+    
+    var connection = new SMTPConnection( options.options );
+    var _connected = false;
+    
+    connection.on( 'log', function( message ) {
+	app.log.debug( 'email:', message );
+    });
+
+    connection.on( 'error', function( err ) {
+	app.log.error( 'email:', err );
+    });
+
+    function connect( cb ) {
+	connection.connect( function( err ) {
+	    if ( err ) return cb( err );
+	    connection.login({ user: options.auth.username, pass: options.auth.password }, function( err ) {
+		if ( err ) return cb( err );
+		_connected = true;
+		return cb();
+	    });
+	});
+    }
+
+    function sendit( data, cb ) {
+	var envelope = { from: data.from, to: data.to };
+	var subject = data.subject;
+	var message  = "Subject: " + subject + "\n\n" + data.text;
+	connection.send( envelope, message, function( err ) {
+	    if ( err ) app.log.error( 'email send:', err );
+	    cb( err );
+	});
+    }
+
+    function send( data, cb ) {
+	app.log.debug( 'email: sending email: from:', data.from, 'to:', data.to );
+	if ( ! _connected ) {
+	    connect( function( err ) {
+		if ( err ) {
+		    app.log.error( 'email: unable to connect:', err );
+		    return cb( err );
+		}
+		sendit( data, cb );
+	    });
+	}
+	else {
+	    sendit( data, function( err ) {
+		if ( ! err ) return cb();
+		app.log.warn( 'email: attempt to re-connect...' );
+		_connected = false;
+		connect( function( err ) {
+		    if ( err ) {
+			app.log.error( 'email: unable to connect:', err );
+			return cb( err );
+		    }
+		    sendit( data, cb );
+		});
+	    });
+	}
+    }
+
+    return {
+	send: send
+    };
+};
+

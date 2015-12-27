@@ -1,0 +1,32 @@
+{
+  "name": "logstash-email-proxy",
+  "version": "0.0.1",
+  "description": "Place as a proxy in front of Logstash to capture messages and send email alerts",
+  "main": "proxy.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrew Peebles",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^1.5.0",
+    "basic-auth": "^1.0.0",
+    "body-parser": "~1.0.0",
+    "cookie-parser": "~1.0.1",
+    "ejs": "~0.8.5",
+    "express": "^4.8.2",
+    "glossy": "^0.1.7",
+    "json-lucene-like-query": "0.0.1",
+    "knex": "^0.8.6",
+    "lodash": "^3.10.1",
+    "mkdirp": "^0.5.1",
+    "moment": "^2.10.6",
+    "nodemailer": "^1.10.0",
+    "sqlite3": "^3.0.9",
+    "static-favicon": "^1.0.2",
+    "winston": "^2.1.1"
+  },
+  "devDependencies": {
+    "docker-logger": "0.0.11"
+  }
+}

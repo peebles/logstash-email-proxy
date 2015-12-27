@@ -1,0 +1,76 @@
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    padding-bottom: 42px;
+    background-color: black;
+}
+
+.navbar {
+    min-height: 34px;
+    backgound-color: black;
+    border: 0;
+    margin-right: 14px;
+}
+
+.navbar-default {
+    background-color: black;
+}
+
+input[name="email"] {
+    width: 100%;
+}
+
+i.ok {
+    cursor: pointer;
+    color: green;
+    margin-top: 5px;
+}
+
+i.save-event-name {
+    cursor: pointer;
+    color: green;
+}
+
+i.delete {
+    cursor: pointer;
+    color: red;
+    margin-top: 5px;
+}
+
+.expr {
+    margin-bottom: 7px;
+}
+
+.search {
+    width: 400px;
+    margin-left: 10px;
+}
+
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+pre {
+    background-color: black;
+    color: #ddd;
+    border: none;
+    border-radius: 0;
+}
+
+.admin-content {
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 50px;
+}
+
+button.event-editor {
+    margin-right: 10px;
+}
+
+button.play-pause, button.clear {
+    margin-right: 3px;
+}

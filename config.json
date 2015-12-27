@@ -1,0 +1,41 @@
+{
+    "webserver_port": 8080,
+    "auth": {
+	"username": "ENV:PROXY_WEBSERVER_USER:admin",
+	"password": "ENV:PROXY_WEBSERVER_PASS:password"
+    },
+    "logger": {
+	"level": "info",
+	"filename": "/tmp/proxy.log"
+    },
+    "smtp": {
+	"from": "ENV:PROXY_SMTP_FROM:events@newco.com",
+	"auth": {
+	    "user": "ENV:PROXY_SMTP_USER:admin",
+	    "pass": "ENV:PROXY_SMTP_PASS:password"
+	},
+	"options": {
+	    "port": "ENV:PROXY_SMTP_PORT:465",
+	    "host": "ENV:PROXY_SMTP_HOST:smpt.gmail.com",
+	    "secure": "ENV:PROXY_SMTP_SECURE:true",
+	    "ignoreTLS": "ENV:PROXY_SMTP_IGNORETLS:false",
+	    "requireTLS": "ENV:PROXY_SMTP_REQUIRETLS:true",
+	    "name": "ENV:PROXY_SMTP_NAME:logstash-proxy",
+	    "localAddress": "ENV:PROXY_SMTP_LOCAL_ADDRESS:0.0.0.0",
+	    "connectionTimeout": "ENV:PROXY_SMTP_CONNECTION_TIMEOUT:3000",
+	    "greetingTimeout": "ENV:PROXY_SMTP_GREETING_TIMEOUT:3000",
+	    "socketTimeout": "ENV:PROXY_SMTP_SOCKET_TIMEOUT:5000",
+	    "debug": "ENV:PROXY_SMTP_DEBUG:false",
+	    "lmtp": "ENV:PROXY_SMTP_LMTP:false",
+	    "authMethod": "ENV:PROXY_SMTP_AUTH:PLAIN",
+	    "tls": {}
+	}
+    },
+    "proxy": [
+    ],
+    "db": {
+	"connection": {
+	    "filename": "ENV:PROXY_SQLITEDB:/tmp/logger.db"
+	}
+    }
+}
