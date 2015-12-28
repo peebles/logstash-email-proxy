@@ -42,9 +42,17 @@ function setupProxyServers( log, proxies, messageQueue, cb ) {
 		    client.close();
 		});
 		if ( ! proxy.ignore ) {
-		    syslogParser.parse( raw.toString( 'utf8', 0 ), function( parsed ) {
-			messageQueue.push( parse( parsed ), function() {} );
-		    });
+		    try {
+			var parsed = JSON.parse( raw.toString( 'utf8', 0 ) );
+			parsed = { originalMessage: raw.toString( 'utf8', 0 ) };
+			messageQueue.push( parse( parsed ), function( err ) {
+			    if ( err ) log.error( err );
+			});
+		    } catch( err ) {
+			syslogParser.parse( raw.toString( 'utf8', 0 ), function( parsed ) {
+			    messageQueue.push( parse( parsed ), function() {} );
+			});
+		    }
 		}
 	    });
 
@@ -79,9 +87,24 @@ function setupProxyServers( log, proxies, messageQueue, cb ) {
 			log.error( err );
 		    }
 		    if ( ! proxy.ignore ) {
-			syslogParser.parse( raw.toString( 'utf8', 0 ), function( parsed ) {
-			    messageQueue.push( parse( parsed ), function() {} );
-			});
+			try {
+			    var parsed = JSON.parse( raw.toString( 'utf8', 0 ) );
+			    parsed = { originalMessage: raw.toString( 'utf8', 0 ) };
+			    messageQueue.push( parse( parsed ), function( err ) {
+				if ( err ) log.error( err );
+			    });
+
+			} catch( err ) {
+			    try {
+				syslogParser.parse( raw.toString( 'utf8', 0 ), function( parsed ) {
+				    messageQueue.push( parse( parsed ), function() {
+					if ( err ) log.error( err );
+				    });
+				});
+			    } catch( err ) {
+				log.error( 'TCP PROBLEM:', err );
+			    }
+			}
 		    }
 		});
 	    });
