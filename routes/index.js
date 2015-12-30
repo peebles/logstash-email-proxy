@@ -9,8 +9,8 @@ var app;
 var auth = function() {
     return function(req, res, next) {
 	var user = basicAuth(req);
-	var username = app.config.resolve( 'auth.username' );
-	var password = app.config.resolve( 'auth.password' );
+	var username = app.config.auth.username;
+	var password = app.config.auth.password;
 	if (!user || user.name !== username || user.pass !== password) {
 	    res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
 	    return res.status(401).end();

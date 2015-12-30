@@ -4,23 +4,6 @@ var moment = require( 'moment' );
 module.exports = function( app ) {
     var db = app.get( 'db' );
 
-    app.config.resolve( 'smtp.from' );
-    app.config.resolve( 'smtp.auth.user' );
-    app.config.resolve( 'smtp.auth.pass' );
-    app.config.resolve( 'smtp.options.host' );
-    app.config.resolve( 'smtp.options.port' );
-    app.config.resolve( 'smtp.options.secure' );
-    app.config.resolve( 'smtp.options.ignoreTLS' );
-    app.config.resolve( 'smtp.options.requireTLS' );
-    app.config.resolve( 'smtp.options.name' );
-    app.config.resolve( 'smtp.options.localAddress' );
-    app.config.resolve( 'smtp.options.connectionTimeout' );
-    app.config.resolve( 'smtp.options.greetingTimeout' );
-    app.config.resolve( 'smtp.options.socketTimeout' );
-    app.config.resolve( 'smtp.options.debug' );
-    app.config.resolve( 'smtp.options.lmtp' );
-    app.config.resolve( 'smtp.options.authMethod' );
-
     var email = require( './email' )( app, app.config.smtp );
     
     async.forever(

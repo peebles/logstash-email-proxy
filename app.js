@@ -19,22 +19,7 @@ process.on( 'uncaughtException', function( err ) {
 });
 
 var app = express();
-app.config = require( './config.json' );
-
-app.config.resolve = function( path ) {
-    var val = _.get( this, path );
-    if ( ! val ) return val;
-    if ( ! val.match( /^ENV:/ ) ) return val;
-    var envvar = val.split(':')[1];
-    var defvar = val.split(':')[2];
-    var v = ( process.env[ envvar ] || defvar );
-    if ( v.match( /^\d+$/ ) ) v = Number( v );
-    else if ( v == 'true' ) v = true;
-    else if ( v == 'false' ) v = false;
-    else if ( v == 'null' ) v = null;
-    _.set( this, path, v );
-    return v;
-}
+app.config = require( 'env-friendly-config' )( __dirname + '/config.json' );
 
 // proxy port mappings can be passed in as arguments of the form:
 //
