@@ -16,7 +16,7 @@
 	},
 	"options": {
 	    "port": "ENV:PROXY_SMTP_PORT:465",
-	    "host": "ENV:PROXY_SMTP_HOST:smpt.gmail.com",
+	    "host": "ENV:PROXY_SMTP_HOST:smtp.gmail.com",
 	    "secure": "ENV:PROXY_SMTP_SECURE:true",
 	    "ignoreTLS": "ENV:PROXY_SMTP_IGNORETLS:false",
 	    "requireTLS": "ENV:PROXY_SMTP_REQUIRETLS:true",
