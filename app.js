@@ -8,6 +8,7 @@ var async = require( 'async' );
 var _ = require( 'lodash' );
 require( 'json-lucene-like-query' );
 
+/**
 process.on( 'uncaughtException', function( err ) {
     if ( err.stack && typeof err.stack == 'object' ) {
 	console.log( err.stack.join('') );
@@ -17,6 +18,7 @@ process.on( 'uncaughtException', function( err ) {
     }
     process.exit(1);
 });
+**/
 
 var app = express();
 app.config = require( 'env-friendly-config' )( __dirname + '/config.json' );
@@ -44,26 +46,20 @@ for( var i=2; i<process.argv.length; i++ ) {
 app.log = new (winston.Logger)({
     transports: [
         new (winston.transports.Console)({ 
-            colorize: true, 
+            colorize: true,
+	    handleExceptions: true,
+	    humanReadableUnhandledException: true,
             level: app.config.logger.level
         }),
         new (winston.transports.File)({ 
             json: false, 
+	    handleExceptions: true,
+	    humanReadableUnhandledException: true,
             level: app.config.logger.level,
             filename: app.config.logger.filename
         }),
     ],
-    exceptionHandlers: [
-        new (winston.transports.Console)({ 
-            colorize: true, 
-            level: app.config.logger.level,
-        }),
-        new (winston.transports.File)({ 
-            json: false, 
-            level: app.config.logger.level,
-            filename: app.config.logger.filename
-        }),
-    ],
+    exitOnError: false
 });
 
 if ( process.env.PROXY_USERNAME ) app.config.auth.username = process.env.PROXY_USERNAME;

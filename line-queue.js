@@ -1,6 +1,6 @@
 module.exports = function( app ) {
     var q = [];
-    var LIMIT = 100;
+    var LIMIT = 1000;
     var TOP = 0;
     return {
 	add: function( json ) {

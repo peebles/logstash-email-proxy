@@ -71,15 +71,19 @@ function setupProxyServers( log, proxies, messageQueue, cb ) {
 	    var net = require("net");
 
 	    var server = net.createServer( function( c ) {
+		var iBuffer = '';
 		c.on( 'error', function( err ) {
 		    log.error( from, err );
 		});
 		c.on( 'data', function( raw ) {
+		    iBuffer += raw.toString( 'utf8', 0 );
+		});
+		c.on( 'end', function() {
 		    try {
 			var client = new net.Socket();
 			client.connect( proxy.to.port, proxy.to.host, function( err ) {
 			    if ( err ) log.error( from, err );
-			    else client.write( raw, function() {
+			    else client.write( iBuffer, function() {
 				client.end();
 			    });
 			});
@@ -88,15 +92,15 @@ function setupProxyServers( log, proxies, messageQueue, cb ) {
 		    }
 		    if ( ! proxy.ignore ) {
 			try {
-			    var parsed = JSON.parse( raw.toString( 'utf8', 0 ) );
-			    parsed = { originalMessage: raw.toString( 'utf8', 0 ) };
+			    var parsed = JSON.parse( iBuffer );
+			    parsed = { originalMessage: iBuffer };
 			    messageQueue.push( parse( parsed ), function( err ) {
 				if ( err ) log.error( err );
 			    });
 
 			} catch( err ) {
 			    try {
-				syslogParser.parse( raw.toString( 'utf8', 0 ), function( parsed ) {
+				syslogParser.parse( iBuffer, function( parsed ) {
 				    messageQueue.push( parse( parsed ), function() {
 					if ( err ) log.error( err );
 				    });
