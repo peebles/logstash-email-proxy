@@ -1,6 +1,6 @@
 {
   "name": "logstash-email-proxy",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Place as a proxy in front of Logstash to capture messages and send email alerts",
   "main": "proxy.js",
   "scripts": {
@@ -12,6 +12,7 @@
     "async": "^1.5.0",
     "basic-auth": "^1.0.0",
     "body-parser": "~1.0.0",
+    "byline": "^5.0.0",
     "cookie-parser": "~1.0.1",
     "ejs": "~0.8.5",
     "env-friendly-config": "latest",

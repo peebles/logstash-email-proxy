@@ -5,7 +5,7 @@
 	"password": "ENV:PROXY_WEBSERVER_PASS:password"
     },
     "logger": {
-	"level": "info",
+	"level": "debug",
 	"filename": "/tmp/proxy.log"
     },
     "smtp": {
